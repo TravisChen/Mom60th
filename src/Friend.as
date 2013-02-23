@@ -20,27 +20,25 @@ package
 		public var wasdBounceToggle:Boolean;
 		
 		public var message:String;
-		public var randomX:int = 50;
-		public var randomY:int = 20;
-		public var attachOffsetX:int;
-		public var attachOffsetY:int;
 		public var isActiveFriend:Boolean;
+		public var _attachOffsetX:int;
+		public var _attachOffsetY:int;
 		
-		public function Friend(X:int,Y:int,player:Player,activeFriend:Boolean)
+		public function Friend(X:int,Y:int,player:Player,activeFriend:Boolean, attachOffsetX:int, attachOffsetY:int)
 		{
 			super(X,Y);
 			
 			isActiveFriend = activeFriend;
 			_player = player;
 			
+			_attachOffsetX = attachOffsetX;
+			_attachOffsetY = attachOffsetY;
+			
 			// Bounding box tweaks
 			width = 64;
 			height = 64;
 			offset.x = width/2;
 			offset.y = height;
-		
-			attachOffsetX = Math.floor( Math.random() * randomX );
-			attachOffsetY = Math.floor( Math.random() * randomY );
 			
 			if( isActiveFriend )
 			{
@@ -124,8 +122,8 @@ package
 		{
 			if( _attached )
 			{
-				x = _player.x - 50 - attachOffsetX;
-				y = _player.y - randomY/2 + attachOffsetY;
+				x = _player.x - _attachOffsetX;
+				y = _player.y - _attachOffsetY;
 			
 				if( _player.facing == LEFT )
 				{

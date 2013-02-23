@@ -8,10 +8,10 @@ package    {
 			super( group );
 			
 			// Create friend
-			friend = new Friend_Ted(levelSizeX*4/5,FlxG.height*11/12,player,true);
+			friend = new Friend_Ted(levelSizeX*4/5,FlxG.height*11/12,player,true,74,5);
 			PlayState.groupPlayer.add(friend);
 		
-			var cali:Friend_Cali = new Friend_Cali(0,0,player,false);
+			var cali:Friend_Cali = new Friend_Cali(0,0,player,false,50,-5);
 			PlayState.groupPlayer.add(cali);
 		}
 	
