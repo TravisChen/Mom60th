@@ -4,35 +4,29 @@ package
 	
 	public class Player extends FlxSprite
 	{
-		[Embed(source="data/mom-walk.png")] private var ImgDarwin:Class;
+		[Embed(source="data/mom-anim.png")] private var ImgPlayer:Class;
 		
 		public var startTime:Number;
 		
-		private var jumpPower:int;
-		private var lastVelocityY:int;
-		private var jumping:Boolean;
-		public var landing:Boolean;
 		public var roundOver:Boolean;
+		
+		public var paused:Boolean = false;
+		
+		public var walking:Boolean = false;
 		
 		public function Player(X:int,Y:int)
 		{
 			super(X,Y);
-			loadGraphic(ImgDarwin,true,true,75,75);
-			
+			loadGraphic(ImgPlayer,true,true,64,64);
+
 			// Bounding box tweaks
-			width = 75;
-			height = 75;
+			width = 64;
+			height = 64;
 			offset.x = width/2;
 			offset.y = height;
 			
 			// Init
-			jumping = false;
 			roundOver = false;
-			
-			// Start time
-			startTime = 0.5;
-			
-			lastVelocityY = velocity.y;
 			
 			// Basic player physics
 			var runSpeed:uint = 140;
@@ -46,13 +40,24 @@ package
 			// Gravity
 			acceleration.y = 0;
 			
-			addAnimation("idle", [0]);
-			addAnimation("run", [0,1,2,3,4,5,6,7,8,9,10,11,12], 40);
+			addAnimation("idle", [16,17,18,19,20,21,22,23,24,25,27,28], 20);
+			addAnimation("run", [0,1,2,3,4,5,6,7,8,9,10,11,12], 50);
 		}
 
 		override public function update():void
-		{			
+		{	
 			super.update();
+			
+			if( paused )
+			{
+				velocity.x = 0;
+				velocity.y = 0;
+				acceleration.x = 0;
+				acceleration.y = 0;
+
+				play("idle");
+				return;
+			}
 
 			if( x <= 0 )
 			{
@@ -112,10 +117,12 @@ package
 		
 			if(velocity.x == 0 && velocity.y == 0 )
 			{
+				walking = false;
 				play("idle");
 			}
 			else
 			{
+				walking = true;
 				play("run");
 			}
 		}

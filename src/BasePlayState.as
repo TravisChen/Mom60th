@@ -8,7 +8,8 @@ package
 	{
 		public static var levelArray:Array = [
 			Level_Menu,
-			Level_Main
+			Level_Friend_Cali,
+			Level_Friend_Ted
 		]
 		
 		public function BasePlayState():void

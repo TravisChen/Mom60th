@@ -5,6 +5,7 @@ package    {
 	public class Level_Menu extends Level{
 		
 		[Embed(source = '../data/wasd.png')] private var ImgWasd:Class;
+		[Embed(source = '../data/menu-background.png')] private var ImgBackground:Class;
 		
 		public var wasd:FlxSprite;
 		public var wasdFadeInTime:Number;
@@ -12,15 +13,22 @@ package    {
 		public var wasdBounceToggle:Boolean;
 		
 		public var startTime:Number;
+		
+		public var playerMenu:Player_Menu;
 
 		public function Level_Menu( group:FlxGroup ) {
 			
 			super();
 			
-			levelSizeX = 480;
+			levelSizeX = 320;
 			levelSizeY = 200;
 			
 			startTime = 1.0;
+			
+			// Create player
+			playerMenu = new Player_Menu(FlxG.width/2,FlxG.height/2 + 76);
+			playerMenu.x = FlxG.width/2;
+			PlayState.groupPlayer.add(playerMenu);
 			
 			createForegroundAndBackground();
 		}
@@ -40,17 +48,31 @@ package    {
 			return false;
 		}
 		
-		public function createForegroundAndBackground():void {
+		public function createForegroundAndBackground():void 
+		{	
 			// Create wasd
 			createWasd();
+			
+			var background:FlxSprite;
+			background = new FlxSprite(0,0);
+			background.loadGraphic(ImgBackground, true, true, levelSizeX, levelSizeY);	
+			PlayState.groupBackground.add(background);
+			
+			var bdayText:FlxText = new FlxText(0, 10, FlxG.width, "HAPPY BIRTHDAY");
+			bdayText.setFormat(null,16,0xFFFFFF,"center");
+			PlayState.groupForeground.add(bdayText);
+			
+			var bdayText2:FlxText = new FlxText(0, 32, FlxG.width, "MOM!");
+			bdayText2.setFormat(null,32,0xFFFFFF,"center");
+			PlayState.groupForeground.add(bdayText2);
 		}
-		
+			
 		public function createWasd():void {
 			// Create wasd
 			wasd = new FlxSprite(0,0);
 			wasd.loadGraphic(ImgWasd, true, true, 32, 32);	
 			wasd.x = FlxG.width/2 - 16;
-			wasd.y = FlxG.height/2 - 16;
+			wasd.y = FlxG.height - 24;
 			wasd.alpha = 0;
 			
 			// Add to foreground

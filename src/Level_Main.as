@@ -33,31 +33,11 @@ package    {
 			levelSizeY = 200;
 
 			// Create player
-			player = new Player(FlxG.height*1/4,FlxG.height*11/12);
+			player = new Player(FlxG.height*1/4,64);
 			PlayState.groupPlayer.add(player);
 			PlayState._currLevel.player = player;
-
-//			// Create enemy
-//			enemy = new Enemy(FlxG.height*3/4,FlxG.height/2);
-//			PlayState.groupPlayer.add(enemy);
 			
 			createForegroundAndBackground();
-			
-			// Timer
-//			startTime = 1.0;
-//			endTime = 3.0;
-//			timer = MAX_TIME;
-//			timerText = new FlxText(0, 0, FlxG.width, "0:00");
-//			timerText.setFormat(null,16,TEXT_COLOR,"left");
-//			timerText.scrollFactor.x = timerText.scrollFactor.y = 0;
-//			PlayState.groupBackground.add(timerText);
-			
-			// Points
-//			points = 0;
-//			pointsText = new FlxText(0, 0, FlxG.width, "0");
-//			pointsText.setFormat(null,8,TEXT_COLOR,"center");
-//			pointsText.scrollFactor.x = pointsText.scrollFactor.y = 0;
-//			PlayState.groupBackground.add(pointsText);
 			
 			// Round end
 			roundEnd = false;
@@ -94,11 +74,6 @@ package    {
 			foregroundSprite = new FlxSprite(0,0);
 			foregroundSprite.loadGraphic(ImgForeground, true, true, levelSizeX, levelSizeY);	
 			PlayState.groupForeground.add(foregroundSprite);
-			
-//			var backgroundSprite:FlxSprite;
-//			backgroundSprite = new FlxSprite(0,0);
-//			backgroundSprite.loadGraphic(ImgBackground, true, true, levelSizeX, levelSizeY);	
-//			PlayState.groupTilemap.add(backgroundSprite);
 		}
 		
 		public function buildRoundEnd():void {
@@ -115,67 +90,19 @@ package    {
 			PlayState.groupForeground.add(roundEndPointsText);
 		}
 		
-		private function updateTimer():void
-		{
-			// Timer
-			var minutes:uint = timer/60;
-			var seconds:uint = timer - minutes*60;
-			if( startTime <= 0 )
-			{
-				timer -= FlxG.elapsed;
-			}
-			else
-			{
-				startTime -= FlxG.elapsed;
-			}
-			
-			// Check round end
-			if( timer <= 0 )
-			{
-				showEndPrompt();
-				if( endTime <= 0 )
-				{
-					checkAnyKey();					
-				}
-				else
-				{
-					endTime -= FlxG.elapsed;
-				}
-				return;
-			}
-			
-			// Update timer text
-			if( seconds < 10 )
-				timerText.text = "" + minutes + ":0" + seconds;
-			else
-				timerText.text = "" + minutes + ":" + seconds;
-		}
-		
 		override public function update():void
 		{	
-			// Timer
-//			updateTimer();
-
-			// Update points text
-//			pointsText.text = "" + points + " (" + PlayState._currLevel.multiplier + "x)";
-//			roundEndPointsText.text = "" + points;
-			
 			super.update();
+			if( player.x >= levelSizeX - 2 )
+			{
+				roundEnd = true;
+			}
 		}
 		
 		private function showEndPrompt():void 
 		{
 			PlayState._currLevel.player.roundOver = true;
 			roundEndPointsText.visible = true;
-		}
-		
-		private function checkAnyKey():void 
-		{
-			roundEndContinueText.visible = true;
-			if (FlxG.keys.any())
-			{
-				roundEnd = true;
-			}		
 		}
 		
 		override public function nextLevel():Boolean
