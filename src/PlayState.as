@@ -12,6 +12,7 @@ package
 		public static var groupCollects:FlxGroup;
 		public static var groupPlayer:FlxGroup;
 		public static var groupForeground:FlxGroup;
+		public static var groupForegroundHighest:FlxGroup;
 		
 		function PlayState():void
 		{
@@ -23,6 +24,7 @@ package
 			groupPlayer = new FlxGroup;
 			groupCollects = new FlxGroup;
 			groupForeground = new FlxGroup;
+			groupForegroundHighest = new FlxGroup;
 			
 			// Create the level
 			var currLevelClass:Class = levelArray[Mom60th.currLevelIndex];
@@ -34,6 +36,7 @@ package
 			this.add(groupForeground);
 			this.add(groupPlayer);
 			this.add(groupCollects);
+			this.add(groupForegroundHighest);
 		}
 		
 		override public function update():void

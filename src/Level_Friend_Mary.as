@@ -2,9 +2,9 @@ package    {
 		
 	import org.flixel.*;
 	
-	public class Level_Friend_Ted extends Level_Main{
+	public class Level_Friend_Mary extends Level_Main{
 	
-		public function Level_Friend_Ted( group:FlxGroup ) {
+		public function Level_Friend_Mary( group:FlxGroup ) {
 			super( group );
 			
 			var roth:Friend_Roth = new Friend_Roth(0,0,player,false);
@@ -19,10 +19,7 @@ package    {
 			var tyler:Friend_Tyler = new Friend_Tyler(0,0,player,false);
 			PlayState.groupPlayer.add(tyler);
 
-			var mary:Friend_Mary = new Friend_Mary(0,0,player,false);
-			PlayState.groupPlayer.add(mary);
-
-			friend = new Friend_Ted(levelSizeX*4/5,FlxG.height*11/12,player,true);
+			friend = new Friend_Mary(levelSizeX*4/5,FlxG.height*11/12,player,true);
 			PlayState.groupPlayer.add(friend);
 			
 			var booth:Friend_Booth = new Friend_Booth(0,0,player,false);

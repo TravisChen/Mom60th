@@ -1,18 +1,20 @@
 package
 {
 	import org.flixel.*;
+	import org.flixel.plugin.photonstorm.*;
 	
 	public class Friend extends FlxSprite
 	{
 		[Embed(source = '../data/text-prompt.png')] private var ImgTextPrompt:Class;
 		[Embed(source = '../data/wasd.png')] private var ImgWasd:Class;
+		[Embed(source = '../data/font.png')] private var ImgFont:Class;
 		
-		private var _player:Player;
-		private var _friendText:FlxText;
+		public var _player:Player;
+		public var _friendText:FlxBitmapFont;
 		private var _textPrompt:FlxSprite;
-		private var _readTime:Number = 3.0;
+		private var _readTime:Number = 1.0;
 		private var _sawText:Boolean = false;
-		private var _attached:Boolean = false;
+		public var _attached:Boolean = false;
 		
 		public var wasd:FlxSprite;
 		public var wasdFadeInTime:Number;
@@ -20,9 +22,12 @@ package
 		public var wasdBounceToggle:Boolean;
 		
 		public var message:String;
+		public var message2:String;
+		public var shownMessage2:Boolean = false;
 		public var isActiveFriend:Boolean;
 		public var _attachOffsetX:int;
 		public var _attachOffsetY:int;
+		public var doPop:Boolean = false;
 		
 		public function Friend(X:int,Y:int,player:Player,activeFriend:Boolean, attachOffsetX:int, attachOffsetY:int)
 		{
@@ -46,13 +51,15 @@ package
 				_textPrompt.loadGraphic(ImgTextPrompt, true, true, 320, 200);
 				_textPrompt.scrollFactor.x = _textPrompt.scrollFactor.y = 0;
 				_textPrompt.visible = false;
-				PlayState.groupForeground.add(_textPrompt);
+				PlayState.groupForegroundHighest.add(_textPrompt);
 				
-				_friendText = new FlxText(0, 4, FlxG.width, message);
-				_friendText.setFormat(null,8,0xFFFFFF,"center");
+				_friendText = new FlxBitmapFont(ImgFont, 6, 8, FlxBitmapFont.TEXT_SET1, 223);
+				_friendText.setText(message,true,0,0,FlxBitmapFont.ALIGN_LEFT,true);
 				_friendText.visible = false;
+				_friendText.x = 4;
+				_friendText.y = 4;
 				_friendText.scrollFactor.x = _friendText.scrollFactor.y = 0;
-				PlayState.groupForeground.add(_friendText);
+				PlayState.groupForegroundHighest.add(_friendText);
 				
 				createWasd();				
 			}
@@ -73,7 +80,7 @@ package
 			wasd.alpha = 0;
 			
 			// Add to foreground
-			PlayState.groupForeground.add(wasd);
+			PlayState.groupForegroundHighest.add(wasd);
 			
 			// Timer
 			wasdFadeInTime = 0.1;
@@ -151,7 +158,34 @@ package
 			}
 			else
 			{
-				play( "idle" );
+				if( !doPop )
+				{
+					if( _friendText.visible )
+					{
+						play("talk");
+					}
+					else
+					{
+						play( "idle" );
+					}
+				}
+				else
+				{
+					if( _friendText.visible )
+					{
+						play("pop");
+						
+						if( finished )
+						{
+							doPop = false;
+						}
+					}
+					else
+					{
+						play("pop_idle");
+
+					}
+				}
 			}
 			
 			if( isActiveFriend )
@@ -175,13 +209,26 @@ package
 							if(FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.LEFT || FlxG.keys.RIGHT ||
 							   FlxG.keys.W || FlxG.keys.A || FlxG.keys.S || FlxG.keys.D)
 							{
-								_friendText.visible = false;
-								_textPrompt.visible = false;
-								_player.paused = false;
-								wasd.visible = false;
-								
-								_sawText = true;
-								_attached = true;
+								if( message2 && !shownMessage2 )
+								{
+									_friendText.setText(message2,true,0,0,FlxBitmapFont.ALIGN_LEFT,true);
+									_readTime = 1.0;
+									wasd.alpha = 0;
+									wasdFadeInTime = 0.1;
+									wasdBounceToggle = true;
+									wasdBounceTime = 0;
+									shownMessage2 = true;
+								}
+								else
+								{
+									_friendText.visible = false;
+									_textPrompt.visible = false;
+									_player.paused = false;
+									wasd.visible = false;
+									
+									_sawText = true;
+									_attached = true;
+								}
 							}
 						}
 					}

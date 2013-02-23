@@ -8,7 +8,7 @@ package    {
 			super( group );
 			
 			// Create friend
-			friend = new Friend_Cali(levelSizeX*4/5,FlxG.height*11/12,player,true,50, -5);
+			friend = new Friend_Cali(levelSizeX*4/5,FlxG.height*11/12,player,true);
 			PlayState.groupPlayer.add(friend);
 		}
 	

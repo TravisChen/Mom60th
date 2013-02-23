@@ -21,7 +21,7 @@ package
 		{
 			if( !songPlaying && pastFirstScreen )
 			{
-				FlxG.playMusic(SndSong,0.3);
+				FlxG.playMusic(SndSong,0.5);
 				songPlaying = true;
 			}
 			pastFirstScreen = true;
