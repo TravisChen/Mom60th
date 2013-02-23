@@ -52,7 +52,7 @@ package
 			// Next level
 			if( _currLevel.nextLevel() )
 			{
-				nextLevel();				
+				nextLevel();	
 			}
 			
 			super.update();
@@ -65,6 +65,7 @@ package
 			{
 				Mom60th.currLevelIndex = 0;
 			}
+			
 			FlxG.switchState(new PlayState());
 		}
 		

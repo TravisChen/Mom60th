@@ -41,7 +41,8 @@ package    {
 				return false;
 			}
 			
-			if(FlxG.keys.any() )
+			if( FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.LEFT || FlxG.keys.RIGHT ||
+				FlxG.keys.W || FlxG.keys.A || FlxG.keys.S || FlxG.keys.D)
 			{
 				return true;
 			}
